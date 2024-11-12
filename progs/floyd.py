@@ -8,7 +8,7 @@ P = [[-1 for _ in range(len(G))] for _ in range(len(G))]
 
 def floyd(G, P):
     D = [row[:] for row in G]  # Create a copy of G
-    n = len(G)  # Infer n from G
+    n = len(G)  # Number of vertices
 
     for k in range(n):
         for i in range(n):
@@ -19,26 +19,33 @@ def floyd(G, P):
 
     return D, P
 
+def print_matrix(matrix, name):
+    print(f"{name} matrix:")
+    for row in matrix:
+        print("[" + " ".join(f"{value:4}" for value in row) + "]")
+    print()
+
 def path(i, j):
     v = P[i][j]
     if v == -1:
         return  # No intermediate vertex
     path(i, v)
-    print("->", v, end="")
+    print(" ->", v, end="")
     path(v, j)
 
 def print_path(i, j):
     print(i, end="")
     path(i, j)
-    print("->", j)
+    print(" ->", j)
 
 # Run the Floyd-Warshall algorithm
 D, P = floyd(G, P)
 
-# Print results
-print("D matrix:", D)
-print("P matrix:", P)
+# Print matrices D and P
+print_matrix(D, "D")
+print_matrix(P, "P")
 
 # Print a path
-print_path(3, 1)
+print("\nPath from 2 to 0:")
+print_path(2, 0)
 
