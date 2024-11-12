@@ -23,14 +23,14 @@ def floyd(G, P, n):
 def path(i, j):
     v = P[i][j]
     if v == 0:
-        print("->")
+        print("->", end="")
         return
     path(i, v)
-    print(v)
+    print(v, end="")
     path(v, j)
 
 def print_path(i, j):
-    print(i)
+    print(i, end="")
     path(i,j)
     print(j)
 
