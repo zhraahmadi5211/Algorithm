@@ -1,15 +1,15 @@
 G = [[0, 3, 1000, 6],
-     [1000,0 , 2, 2],
+     [1000, 0, 2, 2],
      [5, 1, 0, 1000],
      [1, 1000, 1000, 0]]
 
-n = 4
+# Create P matrix with the same shape as G and fill it with -1
+P = [[-1 for _ in range(len(G))] for _ in range(len(G))]
 
-P = [[0]*4]*4
+def floyd(G, P):
+    D = [row[:] for row in G]  # Create a copy of G
+    n = len(G)  # Infer n from G
 
-
-def floyd(G, P, n):
-    D = G
     for k in range(n):
         for i in range(n):
             for j in range(n):
@@ -17,27 +17,28 @@ def floyd(G, P, n):
                     D[i][j] = D[i][k] + D[k][j]
                     P[i][j] = k
 
-    return D,P
-
+    return D, P
 
 def path(i, j):
     v = P[i][j]
-    if v == 0:
-        print("->", end="")
-        return
+    if v == -1:
+        return  # No intermediate vertex
     path(i, v)
-    print(v, end="")
+    print("->", v, end="")
     path(v, j)
 
 def print_path(i, j):
     print(i, end="")
-    path(i,j)
-    print(j)
+    path(i, j)
+    print("->", j)
 
+# Run the Floyd-Warshall algorithm
+D, P = floyd(G, P)
 
-print("P:", P)
-D,P = floyd(G,P,n)
-print("D:", D)
-print("P:", P)
+# Print results
+print("D matrix:", D)
+print("P matrix:", P)
 
-print_path(3,1)
+# Print a path
+print_path(3, 1)
+
